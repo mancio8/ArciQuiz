@@ -9,5 +9,6 @@ urlpatterns = [
     path("add/<int:team>/", views.add_point, name="add_point"),
     path("wrong/", views.wrong_answer, name="wrong_answer"),
     path('reset/', views.reset_game, name='reset_game'),
+    path('import/', views.import_questions, name='import_questions'),
 
 ]

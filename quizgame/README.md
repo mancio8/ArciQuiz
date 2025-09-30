@@ -243,3 +243,26 @@ docker-compose up --build
 - Django → http://localhost:8000/quiz/current/  
 - Dashboard conduttore → http://localhost:8000/quiz/conductor/  
 - PostgreSQL → porta 5432  
+
+
+### Importa domande con json:
+
+- Import → http://localhost:8000/quiz/import/
+
+
+```json
+[
+  {
+    "text": "Qual è la regione di Guardia Sanframondi?",
+    "options": ["Campania", "Molise", "Puglia", "Lazio"],
+    "answer": 0
+  },
+  {
+    "text": "In che provincia si trova Guardia Sanframondi?",
+    "options": ["Benevento", "Avellino", "Caserta", "Salerno"],
+    "answer": 0
+  }
+]
+
+```
+

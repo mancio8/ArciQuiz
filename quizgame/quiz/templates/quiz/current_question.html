@@ -1,14 +1,22 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Quiz Game</title>
+  <title>Quiz Game - ArciGuardia</title>
   <meta http-equiv="refresh" content="5">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
 </head>
 <body class="bg-gray-100 p-6">
+
   <div class="max-w-xl mx-auto bg-white shadow-lg rounded-xl p-6">
+
+    <!-- Logo ArciGuardia -->
+    <div class="flex justify-center mb-6">
+      <img src="{% static 'images/arciguardia_logo.png' %}" alt="ArciGuardia" class="h-20">
+    </div>
+
     {% if question %}
-      <h2 class="text-2xl font-bold mb-4">{{ question.text }}</h2>
+      <h2 class="text-2xl font-bold mb-4 text-center">{{ question.text }}</h2>
       <ul class="space-y-2 mb-6">
         {% for option in question.options %}
           <li>
@@ -22,14 +30,18 @@
       <p class="text-center text-xl mb-6">Il quiz non è iniziato 🚀</p>
     {% endif %}
 
+    
+
     <hr class="my-4">
 
-    <h3 class="text-xl font-semibold mb-2">Punteggi</h3>
-    <ul>
+    <h3 class="text-xl font-semibold mb-2 text-center">Punteggi</h3>
+    <ul class="text-center">
       {% for team, score in scores.items %}
         <li>{{ team }}: <strong>{{ score }}</strong></li>
       {% endfor %}
     </ul>
+
   </div>
+
 </body>
 </html>

@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Importa domande JSON</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-xl mx-auto bg-white shadow-lg rounded-xl p-6">
+    <h1 class="text-2xl font-bold mb-4">Importa domande da JSON</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="file" name="json_file" accept=".json" class="mb-4">
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Carica</button>
+    </form>
+  </div>
+</body>
+</html>

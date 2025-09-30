@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .models import GameState, Question
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 def current_question(request):
@@ -105,3 +106,15 @@ def reset_game(request):
     return redirect('conductor_dashboard')
 
 
+def import_questions(request):
+    if request.method == 'POST' and request.FILES.get('json_file'):
+        json_file = request.FILES['json_file']
+        data = json.load(json_file)
+        for item in data:
+            Question.objects.create(
+                text=item['text'],
+                options=item['options'],
+                answer=item['answer']
+            )
+        return redirect('conductor')  # torna alla dashboard
+    return render(request, 'quiz/import_questions.html')

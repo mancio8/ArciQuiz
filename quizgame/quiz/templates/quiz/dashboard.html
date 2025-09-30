@@ -10,36 +10,77 @@
 
     <p><strong>Domanda corrente:</strong> {{ state.current_question }}</p>
 
+    {% if state.current_question %}
+        <h3 class="text-lg font-semibold mt-2">Opzioni:</h3>
+        <ul class="list-disc pl-6">
+            {% for option in state.current_question.options %}
+            <li 
+                {% if option == state.current_question.answer %}
+                class="font-bold text-green-700"
+                {% endif %}
+            >
+                {{ option }}
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if state.current_question %}
+        <h3 class="text-lg font-semibold mt-2">Risposta corretta:</h3>
+        <p class="text-green-700">
+            {{ state.current_question.answer }}
+        </p>
+    {% endif %}
+
+    
+
+
     <h2 class="text-xl mt-4">Giocatore corrente</h2>
     {% if current_player %}
       <p>Sta rispondendo: <strong>{{ current_player }}</strong></p>
-      <div class="mt-2 space-x-4">
-        <a href="{% url 'add_point' 1 %}" class="text-green-600">✅ +1 Team 1</a>
-        <a href="{% url 'add_point' 2 %}" class="text-green-600">✅ +1 Team 2</a>
-        <a href="{% url 'add_point' 3 %}" class="text-green-600">✅ +1 Team 3</a>
-        <a href="{% url 'add_point' 4 %}" class="text-green-600">✅ +1 Team 4</a>
-        <a href="{% url 'wrong_answer' %}" class="text-red-600">❌ Sbagliata → prossimo</a>
+      <div class="mt-4 grid grid-cols-2 gap-4">
+        <a href="{% url 'add_point' 1 %}" 
+           class="bg-green-500 text-white py-2 px-4 rounded-lg text-center hover:bg-green-600">
+           ✅ +1 Team 1
+        </a>
+        <a href="{% url 'add_point' 2 %}" 
+           class="bg-green-500 text-white py-2 px-4 rounded-lg text-center hover:bg-green-600">
+           ✅ +1 Team 2
+        </a>
+        <a href="{% url 'add_point' 3 %}" 
+           class="bg-green-500 text-white py-2 px-4 rounded-lg text-center hover:bg-green-600">
+           ✅ +1 Team 3
+        </a>
+        <a href="{% url 'add_point' 4 %}" 
+           class="bg-green-500 text-white py-2 px-4 rounded-lg text-center hover:bg-green-600">
+           ✅ +1 Team 4
+        </a>
+        <a href="{% url 'wrong_answer' %}" class="col-span-2 bg-red-500 text-white py-2 px-3 rounded-lg text-center hover:bg-red-600">❌ Sbagliata → prossimo</a>
       </div>
+      
     {% else %}
       <p>Nessun giocatore prenotato</p>
     {% endif %}
 
     <h3 class="text-xl font-semibold mt-4 mb-2">Coda prenotati</h3>
     <ul>
-      {% for p in state.buzzed_queue %}
-        <li>{{ forloop.counter }}. {{ p }}</li>
-      {% empty %}
-        <li>Nessuno prenotato</li>
-      {% endfor %}
+        {% for p in state.buzzed_queue %}
+          <li class="{% if forloop.first %}bg-yellow-200 font-bold{% endif %} p-1 rounded">
+            {{ forloop.counter }}. {{ p }}
+          </li>
+        {% empty %}
+          <li>Nessuno prenotato</li>
+        {% endfor %}
     </ul>
+      
 
     <h3 class="text-xl font-semibold mt-4 mb-2">Punteggi</h3>
-    <ul class="mb-4">
-      <li>Team 1: {{ state.score_team1 }}</li>
-      <li>Team 2: {{ state.score_team2 }}</li>
-      <li>Team 3: {{ state.score_team3 }}</li>
-      <li>Team 4: {{ state.score_team4 }}</li>
-    </ul>
+    <div class="grid grid-cols-2 gap-4 mt-4">
+        <div class="bg-blue-100 p-2 rounded">Team 1: <strong>{{ state.score_team1 }}</strong></div>
+        <div class="bg-red-100 p-2 rounded">Team 2: <strong>{{ state.score_team2 }}</strong></div>
+        <div class="bg-green-100 p-2 rounded">Team 3: <strong>{{ state.score_team3 }}</strong></div>
+        <div class="bg-yellow-100 p-2 rounded">Team 4: <strong>{{ state.score_team4 }}</strong></div>
+    </div>
+      
 
     <h3 class="text-xl font-semibold mb-2">Domande disponibili</h3>
     <ul>
@@ -50,9 +91,10 @@
         </li>
       {% endfor %}
     </ul>
+    <a href="{% url 'reset_game' %}" class="text-red-600 font-bold mt-4 block">🔄 Reset Partita</a>
   </div>
 
-  <a href="{% url 'reset_game' %}" class="text-red-600 font-bold mt-4 block">🔄 Reset Partita</a>
+
 
 
   
