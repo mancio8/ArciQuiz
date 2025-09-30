@@ -253,14 +253,25 @@ docker-compose up --build
 ```json
 [
   {
-    "text": "Qual è la regione di Guardia Sanframondi?",
-    "options": ["Campania", "Molise", "Puglia", "Lazio"],
-    "answer": 0
+    "text": "IMPREVISTO! Rispondi velocissimo: 2+2=?",
+    "options": ["Vero","Falso"],
+    "answer": 1,
+    "type": "truefalse",
+    "points": 2
   },
   {
     "text": "In che provincia si trova Guardia Sanframondi?",
     "options": ["Benevento", "Avellino", "Caserta", "Salerno"],
-    "answer": 0
+    "answer": 0,
+    "type": "quiz",
+    "points": 2
+  },
+  {
+    "text": "Ricostruisci la parola: G A R D I A",
+    "options": ["GUARDIA"],
+    "answer": 0,
+    "type": "anagram",
+    "points": 2
   }
 ]
 
