@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .models import GameState, Question
+from django.views.decorators.csrf import csrf_exempt
 
 
 def current_question(request):
@@ -41,7 +42,7 @@ def set_question(request, qid):
     state.save()
     return redirect("conductor_dashboard")
 
-
+@csrf_exempt
 def buzz(request):
     """ESP32 invia prenotazione → aggiunta in coda"""
     if request.method == "POST":
@@ -82,3 +83,25 @@ def wrong_answer(request):
     if state:
         state.next_player()
     return redirect("conductor_dashboard")
+
+def reset_game(request):
+    state, created = GameState.objects.get_or_create(id=1)
+    
+    # Ripristina punteggi
+    state.score_team1 = 0
+    state.score_team2 = 0
+    state.score_team3 = 0
+    state.score_team4 = 0
+
+    # Svuota coda buzzers
+    state.buzzed_queue = []
+
+    # Imposta la prima domanda (se esiste)
+    first_question = Question.objects.first()
+    state.current_question = first_question
+
+    state.save()
+
+    return redirect('conductor_dashboard')
+
+
