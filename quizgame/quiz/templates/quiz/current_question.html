@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz Game</title>
+  <meta http-equiv="refresh" content="5">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-xl mx-auto bg-white shadow-lg rounded-xl p-6">
+    {% if question %}
+      <h2 class="text-2xl font-bold mb-4">{{ question.text }}</h2>
+      <ul class="space-y-2 mb-6">
+        {% for option in question.options %}
+          <li>
+            <button class="w-full bg-blue-500 text-white py-2 px-4 rounded-xl hover:bg-blue-600">
+              {{ option }}
+            </button>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-center text-xl mb-6">Il quiz non è iniziato 🚀</p>
+    {% endif %}
+
+    <hr class="my-4">
+
+    <h3 class="text-xl font-semibold mb-2">Punteggi</h3>
+    <ul>
+      {% for team, score in scores.items %}
+        <li>{{ team }}: <strong>{{ score }}</strong></li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>

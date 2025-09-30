@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard Conduttore</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-2xl mx-auto bg-white shadow-lg rounded-xl p-6">
+    <h1 class="text-2xl font-bold mb-4">Dashboard Conduttore</h1>
+
+    <p><strong>Domanda corrente:</strong> {{ state.current_question }}</p>
+
+    <h2 class="text-xl mt-4">Giocatore corrente</h2>
+    {% if current_player %}
+      <p>Sta rispondendo: <strong>{{ current_player }}</strong></p>
+      <div class="mt-2 space-x-4">
+        <a href="{% url 'add_point' 1 %}" class="text-green-600">✅ +1 Team 1</a>
+        <a href="{% url 'add_point' 2 %}" class="text-green-600">✅ +1 Team 2</a>
+        <a href="{% url 'add_point' 3 %}" class="text-green-600">✅ +1 Team 3</a>
+        <a href="{% url 'add_point' 4 %}" class="text-green-600">✅ +1 Team 4</a>
+        <a href="{% url 'wrong_answer' %}" class="text-red-600">❌ Sbagliata → prossimo</a>
+      </div>
+    {% else %}
+      <p>Nessun giocatore prenotato</p>
+    {% endif %}
+
+    <h3 class="text-xl font-semibold mt-4 mb-2">Coda prenotati</h3>
+    <ul>
+      {% for p in state.buzzed_queue %}
+        <li>{{ forloop.counter }}. {{ p }}</li>
+      {% empty %}
+        <li>Nessuno prenotato</li>
+      {% endfor %}
+    </ul>
+
+    <h3 class="text-xl font-semibold mt-4 mb-2">Punteggi</h3>
+    <ul class="mb-4">
+      <li>Team 1: {{ state.score_team1 }}</li>
+      <li>Team 2: {{ state.score_team2 }}</li>
+      <li>Team 3: {{ state.score_team3 }}</li>
+      <li>Team 4: {{ state.score_team4 }}</li>
+    </ul>
+
+    <h3 class="text-xl font-semibold mb-2">Domande disponibili</h3>
+    <ul>
+      {% for q in questions %}
+        <li class="mb-1">
+          {{ q.text }}
+          <a href="{% url 'set_question' q.id %}" class="ml-2 text-blue-600">➡️ Imposta</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>
