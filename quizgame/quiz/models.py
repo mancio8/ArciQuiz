@@ -1,13 +1,24 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
+from django.db import models
+
 class Question(models.Model):
+    TYPE_CHOICES = [
+        ('quiz', 'Quiz classico'),
+        ('anagram', 'Anagramma'),
+        ('truefalse', 'Vero/Falso'),
+    ]
+
     text = models.CharField(max_length=255)
-    options = models.JSONField()  # ["A", "B", "C", "D"]
-    answer = models.IntegerField()  # indice corretto (0-3)
+    options = models.JSONField(blank=True, null=True)  # ["A","B","C","D"] oppure ["Vero","Falso"]
+    answer = models.IntegerField()  # indice corretto
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='quiz')
+    points = models.IntegerField(default=1)  # punti della domanda
 
     def __str__(self):
-        return self.text
+        return f"{self.text} ({self.get_type_display()})"
+
 
 
 class GameState(models.Model):

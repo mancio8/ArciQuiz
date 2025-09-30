@@ -36,26 +36,31 @@
 
     <h2 class="text-xl mt-4">Giocatore corrente</h2>
     {% if current_player %}
-      <p>Sta rispondendo: <strong>{{ current_player }}</strong></p>
-      <div class="mt-4 grid grid-cols-2 gap-4">
+    <p>Sta rispondendo: <strong>{{ current_player }}</strong></p>
+    <p class="text-sm text-gray-700 mb-2">
+        Punti domanda: {{ state.current_question.points }}
+    </p>
+    <div class="mt-4 grid grid-cols-2 gap-4">
         <a href="{% url 'add_point' 1 %}" 
-           class="bg-green-500 text-white py-2 px-4 rounded-lg text-center hover:bg-green-600">
-           ✅ +1 Team 1
+        class="bg-green-500 text-white py-2 px-4 rounded-lg text-center hover:bg-green-600">
+        ✅ +{{ state.current_question.points }} Team 1
         </a>
         <a href="{% url 'add_point' 2 %}" 
-           class="bg-green-500 text-white py-2 px-4 rounded-lg text-center hover:bg-green-600">
-           ✅ +1 Team 2
+        class="bg-green-500 text-white py-2 px-4 rounded-lg text-center hover:bg-green-600">
+        ✅ +{{ state.current_question.points }} Team 2
         </a>
         <a href="{% url 'add_point' 3 %}" 
-           class="bg-green-500 text-white py-2 px-4 rounded-lg text-center hover:bg-green-600">
-           ✅ +1 Team 3
+        class="bg-green-500 text-white py-2 px-4 rounded-lg text-center hover:bg-green-600">
+        ✅ +{{ state.current_question.points }} Team 3
         </a>
         <a href="{% url 'add_point' 4 %}" 
-           class="bg-green-500 text-white py-2 px-4 rounded-lg text-center hover:bg-green-600">
-           ✅ +1 Team 4
+        class="bg-green-500 text-white py-2 px-4 rounded-lg text-center hover:bg-green-600">
+        ✅ +{{ state.current_question.points }} Team 4
         </a>
-        <a href="{% url 'wrong_answer' %}" class="col-span-2 bg-red-500 text-white py-2 px-3 rounded-lg text-center hover:bg-red-600">❌ Sbagliata → prossimo</a>
-      </div>
+        <a href="{% url 'wrong_answer' %}" class="col-span-2 bg-red-500 text-white py-2 px-3 rounded-lg text-center hover:bg-red-600">
+        ❌ Sbagliata → prossimo
+        </a>
+    </div>
       
     {% else %}
       <p>Nessun giocatore prenotato</p>

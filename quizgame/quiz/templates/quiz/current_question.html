@@ -1,47 +1,63 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Quiz Game - ArciGuardia</title>
-  <meta http-equiv="refresh" content="5">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
-</head>
-<body class="bg-gray-100 p-6">
+  <head>
+    <title>Quiz Game - ArciGuardia</title>
+    <meta http-equiv="refresh" content="5" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css"
+    />
+  </head>
+  <body class="bg-gray-100 p-6">
+    <div class="max-w-xl mx-auto bg-white shadow-lg rounded-xl p-6">
+      <!-- Logo ArciGuardia -->
+      <div class="flex justify-center mb-6">
+        <img
+          src="{% static 'images/arciguardia_logo.png' %}"
+          alt="ArciGuardia"
+          class="h-20"
+        />
+      </div>
 
-  <div class="max-w-xl mx-auto bg-white shadow-lg rounded-xl p-6">
-
-    <!-- Logo ArciGuardia -->
-    <div class="flex justify-center mb-6">
-      <img src="{% static 'images/arciguardia_logo.png' %}" alt="ArciGuardia" class="h-20">
-    </div>
-
-    {% if question %}
+      {% if question %}
       <h2 class="text-2xl font-bold mb-4 text-center">{{ question.text }}</h2>
+
+      <!-- Mostra quanti punti vale la domanda -->
+      {% if question.points %}
+      <p class="text-center text-green-600 font-semibold mb-4">
+        Punti: {{ question.points }}
+      </p>
+      {% endif %} {% if question.type != "anagram" %}
+      <!-- Mostra le opzioni solo se NON è un anagramma -->
       <ul class="space-y-2 mb-6">
         {% for option in question.options %}
-          <li>
-            <button class="w-full bg-blue-500 text-white py-2 px-4 rounded-xl hover:bg-blue-600">
-              {{ option }}
-            </button>
-          </li>
+        <li>
+          <button
+            class="w-full bg-blue-500 text-white py-2 px-4 rounded-xl hover:bg-blue-600"
+          >
+            {{ option }}
+          </button>
+        </li>
         {% endfor %}
       </ul>
-    {% else %}
+      {% else %}
+      <!-- Per gli anagrammi non mostrare opzioni, il team risponde a voce -->
+      <p class="text-center text-yellow-600 font-bold mb-6">
+        Risposta da dare a voce al conduttore 🎤
+      </p>
+      {% endif %} {% else %}
       <p class="text-center text-xl mb-6">Il quiz non è iniziato 🚀</p>
-    {% endif %}
+      {% endif %}
 
-    
+      <hr class="my-4" />
 
-    <hr class="my-4">
-
-    <h3 class="text-xl font-semibold mb-2 text-center">Punteggi</h3>
-    <ul class="text-center">
-      {% for team, score in scores.items %}
+      <h3 class="text-xl font-semibold mb-2 text-center">Punteggi</h3>
+      <ul class="text-center">
+        {% for team, score in scores.items %}
         <li>{{ team }}: <strong>{{ score }}</strong></li>
-      {% endfor %}
-    </ul>
-
-  </div>
-
-</body>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
 </html>

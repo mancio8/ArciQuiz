@@ -13,7 +13,7 @@ def current_question(request):
     context = {
         "question": question,
         "scores": {
-            "Team 1": state.score_team1 if state else 0,
+            "OneT": state.score_team1 if state else 0,
             "Team 2": state.score_team2 if state else 0,
             "Team 3": state.score_team3 if state else 0,
             "Team 4": state.score_team4 if state else 0,
@@ -59,23 +59,27 @@ def buzz(request):
 
 
 def add_point(request, team):
-    """Aggiunge 1 punto al team scelto"""
+    """Aggiunge punti al team scelto in base alla domanda corrente"""
     state = GameState.objects.first()
-    if not state:
+    if not state or not state.current_question:
         return redirect("conductor_dashboard")
 
+    # prendi i punti dalla domanda corrente
+    points = state.current_question.points if state.current_question.points else 1
+
     if team == 1:
-        state.score_team1 += 1
+        state.score_team1 += points
     elif team == 2:
-        state.score_team2 += 1
+        state.score_team2 += points
     elif team == 3:
-        state.score_team3 += 1
+        state.score_team3 += points
     elif team == 4:
-        state.score_team4 += 1
+        state.score_team4 += points
 
     state.save()
     state.reset_buzz()  # dopo risposta corretta si svuota la coda
     return redirect("conductor_dashboard")
+
 
 
 def wrong_answer(request):
@@ -113,8 +117,10 @@ def import_questions(request):
         for item in data:
             Question.objects.create(
                 text=item['text'],
-                options=item['options'],
-                answer=item['answer']
+                options=item.get('options', []),
+                answer=item['answer'],
+                type=item.get('type', 'quiz'),
+                points=item.get('points', 1)
             )
-        return redirect('conductor')  # torna alla dashboard
+        return redirect('conductor')
     return render(request, 'quiz/import_questions.html')
